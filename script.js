@@ -40,8 +40,84 @@ function enterInput(input) {
     changeToPostfix(infixExp);
 }
 
+function checkPrecedence(character) {
+    switch (character) {
+        case "^":
+            return 3;
+        case "*":
+        case "/":
+            return 2;
+        case "+":
+        case "-":
+            return 1;
+    }
+}
+
 function changeToPostfix(expression) {
     console.log(expression); //Testing
+    const stack = [];
+    const postFix = [];
+
+    for (let i = 0; i < expression.length; i++) {
+        let character = expression[i];
+        //console.log(character);
+        if (!isNaN(character)) {
+            postFix.push(character);
+        }
+
+        else if (character === "(") { //problems! test value: 1*(3+4)
+            stack.push(character);
+            console.log(stack);
+        }
+
+        else if (character === ")") { //problems!
+            console.log(stack[stack.length - 1]);
+            while (stack[stack.length - 1] != "(") {
+                postFix.push(stack[stack.length - 1]);
+                stack.pop();
+            }
+
+            stack.pop(); // removes "("
+        }
+
+        else { // operator test value: 1-3/4+3-80^2*9
+            let precedenceScanned = checkPrecedence(character);
+            let precedenceTopOfStack = checkPrecedence(stack[stack.length - 1]);
+
+            if (stack.length === 0) {
+                stack.push(character);
+                console.log(character);
+            }
+
+            else if (precedenceScanned > precedenceTopOfStack) {
+                stack.push(character);
+                console.log(stack[stack.length - 1]); //test
+            }
+
+            else if (precedenceScanned < precedenceTopOfStack) {
+                postFix.push(stack[stack.length - 1]);
+                stack.pop();
+                stack.push(character);
+            }
+
+            else if (character === "^" && stack[stack.length-1] === "^") {
+                stack.push(character);
+            }
+
+            else if (precedenceScanned === precedenceTopOfStack) {
+                postFix.push(stack[stack.length - 1]);
+                stack.pop();
+                stack.push(character);
+            }
+        }
+    }
+
+    while (stack.length > 0) {
+        postFix.push(stack[stack.length - 1]);
+        stack.pop();
+    }
+
+    console.log(`${postFix} is postFix`);
 
     evaluateExp(expression);
 }
@@ -69,3 +145,4 @@ operator index -1 and operator index + 1 and put them together.
 
 */
 
+//console.log(checkPrecedence("*"));
