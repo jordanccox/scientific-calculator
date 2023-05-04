@@ -79,25 +79,25 @@ function changeSign(input) {
 
     for (let i = 0; i < newArray.length; i++) { // test value: 1-3*-4-(8*9-4*-(4*6))
         let value = newArray[i]; // minus sign
-        let valueBefore = newArray[i-1]; // num before minus sign
-        let numToChange = newArray[i+1]; // num or parentheses after minus sign
+        let valueBefore = newArray[i - 1]; // num before minus sign
+        let numToChange = newArray[i + 1]; // num or parentheses after minus sign
         let start = newArray.slice(0, i);
         let end = newArray.slice(i + 2, newArray.length);
-    
-        if (value === "-" && Number(valueBefore) && numToChange !== "(") {
+
+        if (value === "-" && Number(valueBefore) && numToChange !== "(") { //case num - num
             if (isNaN(numToChange * - 1)) {
                 throw errorMessage;
             }
             newArray = start.concat("+").concat(numToChange * - 1).concat(end);
-        } else if (value === "-" && isNaN(valueBefore) && numToChange !== "(") {
+        } else if (value === "-" && isNaN(valueBefore) && numToChange !== "(") { // case num operator - num
             if (isNaN(numToChange * - 1)) {
                 throw errorMessage;
             }
             newArray = start.concat(numToChange * - 1).concat(end);
-        } else if (value === "-" && Number(valueBefore) && numToChange === "(") {
+        } else if (value === "-" && Number(valueBefore) && numToChange === "(") { // case num - ()
             end = newArray.slice(i + 1, newArray.length);
             newArray = start.concat("+").concat(-1).concat("*").concat(end);
-        } else if (value === "-" && isNaN(valueBefore) && numToChange === "(") {
+        } else if (value === "-" && isNaN(valueBefore) && numToChange === "(") { // case num operator - ()
             end = newArray.slice(i + 1, newArray.length);
             newArray = start.concat(-1).concat("*").concat(end);
         }
@@ -106,8 +106,37 @@ function changeSign(input) {
     return newArray;
 }
 
-function parentheses() {
+function parentheses(input) { // test value: ((4+5)+(4*(4-(5^(3-4)))))
+    let newArray = input;
+    let subArray = [];
+    let counter = 0;
+    let start = 0;
+    let end = 0;
 
+    if (!newArray.includes("(")) {
+        console.log("base case reached!"); // Begin searching performing operations
+        console.log(newArray);
+    } else {
+        for (let i = 0; i < newArray.length; i++) {
+            if (newArray[i] === "(" && counter === 0) {
+                start = i + 1;
+                counter++;
+            } else if (newArray[i] === "(" && counter > 0) {
+                counter++;
+                //console.log(counter);
+            } else if (newArray[i] === ")" && counter > 1) {
+                counter--;
+                //console.log(counter);
+            } else if (newArray[i] === ")" && counter === 1) {
+                counter--;
+                end = i;
+                subArray = newArray.slice(start, end);
+                parentheses(subArray);
+                //console.log(start + " " + end);
+                //console.log(subArray);
+            }
+        }
+    }
 }
 
 function sqrt() {
