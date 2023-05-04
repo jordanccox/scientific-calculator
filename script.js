@@ -89,7 +89,7 @@ function changeSign(input) {
                 throw errorMessage;
             }
             newArray = start.concat("+").concat(numToChange * - 1).concat(end);
-        } else if (value === "-" && isNaN(valueBefore) && numToChange !== "(") { // case num operator - num
+        } else if (value === "-" && isNaN(valueBefore) && numToChange !== "(") { // case num operator - num and starts with -num
             if (isNaN(numToChange * - 1)) {
                 throw errorMessage;
             }
@@ -116,6 +116,7 @@ function parentheses(input) { // test value: ((4+5)+(4*(4-(5^(3-4)))))
     if (!newArray.includes("(")) {
         console.log("base case reached!"); // Begin searching performing operations
         console.log(newArray);
+        return 1;
     } else {
         for (let i = 0; i < newArray.length; i++) {
             if (newArray[i] === "(" && counter === 0) {
@@ -131,12 +132,17 @@ function parentheses(input) { // test value: ((4+5)+(4*(4-(5^(3-4)))))
                 counter--;
                 end = i;
                 subArray = newArray.slice(start, end);
-                parentheses(subArray);
-                //console.log(start + " " + end);
                 //console.log(subArray);
+                let x = parentheses(subArray);
+                 // store subArray and continue until no more parentheses. Feed back through...
+                //console.log(start + " " + end);
+                console.log(x);
+                console.log(`${start} and ${end}`);
             }
         }
     }
+
+    return newArray;
 }
 
 function sqrt() {
