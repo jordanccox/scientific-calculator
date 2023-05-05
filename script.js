@@ -58,8 +58,8 @@ function changeToPostfix(expression) {
     const stack = [];
     const postFix = [];
 
-    for (let i = 0; i < expression.length; i++) {
-        let character = expression[i];
+    for (let i = 0; i < expression.length; i++) { //new problem: 13+4^(3+40)-5^0.30 is being output as 13,4,3,40,+,^,5,0.3,^,-,+
+        let character = expression[i]; // it should be 13,4,3,40,+,^,+,5,0.3,^,-
         //console.log(character);
         if (!isNaN(character)) {
             postFix.push(character);
@@ -70,7 +70,6 @@ function changeToPostfix(expression) {
         }
 
         else if (character === ")") {
-            console.log(stack);
             while (stack[stack.length - 1] != "(") {
                 postFix.push(stack.pop());
             }
@@ -78,48 +77,23 @@ function changeToPostfix(expression) {
         }
 
         else { // operator test value: 1-3/4+3-80^2*9
-            let precedenceScanned = checkPrecedence(character);
-            let precedenceTopOfStack = checkPrecedence(stack[stack.length - 1]);
             let topOfStack = stack[stack.length - 1];
 
-            if (stack.length === 0) {
-                stack.push(character);
-                console.log(character);
+            while(stack.length != 0 && checkPrecedence(character) <= checkPrecedence(topOfStack)) {
+                postFix.push(stack.pop());
             }
-
-            else if (precedenceScanned > precedenceTopOfStack && topOfStack != "(") {
-                stack.push(character);
-                console.log(stack[stack.length - 1]); //test
-            }
-
-            else if (precedenceScanned < precedenceTopOfStack && topOfStack != "(") {
-                postFix.push(stack[stack.length - 1]);
-                stack.pop();
-                stack.push(character);
-            }
-
-            else if (character === "^" && stack[stack.length-1] === "^") {
-                stack.push(character);
-            }
-
-            else if (precedenceScanned === precedenceTopOfStack && topOfStack != "(") {
-                postFix.push(stack[stack.length - 1]);
-                stack.pop();
-                stack.push(character);
-            }
-
-            else if (topOfStack === "(") {
-                stack.push(character);
-            }
+            stack.push(character);
         }
+
+        console.log(stack); //test
+        console.log(postFix);
     }
 
     while (stack.length > 0) {
-        postFix.push(stack[stack.length - 1]);
-        stack.pop();
+        postFix.push(stack.pop());
     }
 
-    console.log(`${postFix} is postFix`);
+    console.log(`${postFix} is postFix`); //test
 
     evaluateExp(expression);
 }
