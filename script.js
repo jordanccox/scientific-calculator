@@ -80,7 +80,7 @@ function changeToPostfix(expression) {
             let topOfStack = stack[stack.length - 1];
 
             while(stack.length != 0 && checkPrecedence(character) <= checkPrecedence(topOfStack)) {
-                postFix.push(stack.pop());
+                    postFix.push(stack.pop()); //Not evaluating exponents from right to left like it should. Update code...
             }
             stack.push(character);
         }
