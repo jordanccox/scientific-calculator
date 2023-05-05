@@ -58,9 +58,8 @@ function changeToPostfix(expression) {
     const stack = [];
     const postFix = [];
 
-    for (let i = 0; i < expression.length; i++) { //new problem: 13+4^(3+40)-5^0.30 is being output as 13,4,3,40,+,^,5,0.3,^,-,+
-        let character = expression[i]; // it should be 13,4,3,40,+,^,+,5,0.3,^,-
-        //console.log(character);
+    for (let i = 0; i < expression.length; i++) {
+        let character = expression[i];
         if (!isNaN(character)) {
             postFix.push(character);
         }
@@ -80,7 +79,11 @@ function changeToPostfix(expression) {
             let topOfStack = stack[stack.length - 1];
 
             while(stack.length != 0 && checkPrecedence(character) <= checkPrecedence(topOfStack)) {
-                    postFix.push(stack.pop()); //Not evaluating exponents from right to left like it should. Update code...
+                    if (character === "^") {
+                        break;
+                    } else {
+                        postFix.push(stack.pop());
+                    }
             }
             stack.push(character);
         }
