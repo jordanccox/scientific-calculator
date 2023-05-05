@@ -60,6 +60,7 @@ function changeToPostfix(expression) {
 
     for (let i = 0; i < expression.length; i++) {
         let character = expression[i];
+
         if (!isNaN(character)) {
             postFix.push(character);
         }
@@ -68,17 +69,17 @@ function changeToPostfix(expression) {
             stack.push(character);
         }
 
-        else if (character === ")") {
-            while (stack[stack.length - 1] != "(") {
-                postFix.push(stack.pop());
-            }
-            stack.pop(); // removes "("
+        else if (character === ")" && stack.includes("(")) {
+                while (stack[stack.length - 1] != "(") {
+                    postFix.push(stack.pop());
+                }
+                stack.pop(); // removes "("
         }
 
         else { // operator
             let topOfStack = stack[stack.length - 1];
-        
-            while(stack.length != 0 && checkPrecedence(character) <= checkPrecedence(topOfStack)) {
+
+            while (stack.length != 0 && checkPrecedence(character) <= checkPrecedence(topOfStack)) {
                 if (character === "^" && topOfStack === "^") {
                     break;
                 } else {
@@ -104,6 +105,8 @@ function changeToPostfix(expression) {
         throw errorMessage; //Add print to screen eventually
     }
 
+    // Add error handling for placing operators next to each other (*/ for example)
+
     // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
 
     evaluateExp(expression);
@@ -119,7 +122,7 @@ function clear() {
 
 // At input ()
 
-/* 
+/*
 
 Steps:
 
