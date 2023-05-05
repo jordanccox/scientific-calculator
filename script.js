@@ -65,36 +65,34 @@ function changeToPostfix(expression) {
             postFix.push(character);
         }
 
-        else if (character === "(") { //problems! test value: 1*(3+4)
+        else if (character === "(") {
             stack.push(character);
-            console.log(stack);
         }
 
-        else if (character === ")") { //problems!
-            console.log(stack[stack.length - 1]);
+        else if (character === ")") {
+            console.log(stack);
             while (stack[stack.length - 1] != "(") {
-                postFix.push(stack[stack.length - 1]);
-                stack.pop();
+                postFix.push(stack.pop());
             }
-
             stack.pop(); // removes "("
         }
 
         else { // operator test value: 1-3/4+3-80^2*9
             let precedenceScanned = checkPrecedence(character);
             let precedenceTopOfStack = checkPrecedence(stack[stack.length - 1]);
+            let topOfStack = stack[stack.length - 1];
 
             if (stack.length === 0) {
                 stack.push(character);
                 console.log(character);
             }
 
-            else if (precedenceScanned > precedenceTopOfStack) {
+            else if (precedenceScanned > precedenceTopOfStack && topOfStack != "(") {
                 stack.push(character);
                 console.log(stack[stack.length - 1]); //test
             }
 
-            else if (precedenceScanned < precedenceTopOfStack) {
+            else if (precedenceScanned < precedenceTopOfStack && topOfStack != "(") {
                 postFix.push(stack[stack.length - 1]);
                 stack.pop();
                 stack.push(character);
@@ -104,9 +102,13 @@ function changeToPostfix(expression) {
                 stack.push(character);
             }
 
-            else if (precedenceScanned === precedenceTopOfStack) {
+            else if (precedenceScanned === precedenceTopOfStack && topOfStack != "(") {
                 postFix.push(stack[stack.length - 1]);
                 stack.pop();
+                stack.push(character);
+            }
+
+            else if (topOfStack === "(") {
                 stack.push(character);
             }
         }
