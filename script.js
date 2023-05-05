@@ -75,15 +75,16 @@ function changeToPostfix(expression) {
             stack.pop(); // removes "("
         }
 
-        else { // operator test value: 1-3/4+3-80^2*9
+        else { // operator
             let topOfStack = stack[stack.length - 1];
-
+        
             while(stack.length != 0 && checkPrecedence(character) <= checkPrecedence(topOfStack)) {
-                    if (character === "^") {
-                        break;
-                    } else {
-                        postFix.push(stack.pop());
-                    }
+                if (character === "^" && topOfStack === "^") {
+                    break;
+                } else {
+                    postFix.push(stack.pop());
+                    topOfStack = stack[stack.length - 1];
+                }
             }
             stack.push(character);
         }
