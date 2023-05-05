@@ -25,7 +25,7 @@ equals.addEventListener("click", () => enterInput(document.querySelector("#input
 function enterInput(input) {
     //console.log(input + "enterInput");
     let inputArray = input.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
-    const infixExp = [];
+    let infixExp = [];
 
     //console.log(inputArray);
     for (let i = 0; i < inputArray.length; i++) {
@@ -37,11 +37,31 @@ function enterInput(input) {
         }
     }
     //console.log(output + "test"); //Testing purposes
+    infixExp = changeSign(infixExp);
+    console.log(infixExp); //test
     changeToPostfix(infixExp);
 }
 
-function checkPrecedence(character) {
-    switch (character) {
+function changeSign(expression) {
+    let newArray = expression;
+
+    for (let i = 0; i < newArray.length; i++) { // test value: 1-3*-4-(8*9-4*-(4*6))
+        let value = newArray[i]; // minus sign
+        let valueBefore = newArray[i - 1]; // num before minus sign
+        let numToChange = newArray[i + 1]; // num or parentheses after minus sign
+        let start = newArray.slice(0, i);
+        let end = newArray.slice(i + 2, newArray.length);
+
+        if (value == "-" && isNaN(valueBefore) && !isNaN(numToChange)) {
+            newArray = start.concat(numToChange * -1).concat(end);
+        }
+    }
+
+    return newArray;
+}
+
+function checkPrecedence(operator) {
+    switch (operator) {
         case "^":
             return 3;
         case "*":
@@ -108,7 +128,7 @@ function changeToPostfix(expression) {
     // Add error handling for placing operators next to each other (*/ for example)
 
     // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
-
+    console.log(postFix); //There is a problem with converting infix to postfix when it involves an operator and a negative number such as 3+-4
     evaluateExp(postFix);
 }
 
@@ -161,33 +181,6 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
     }
 
     console.log(stack[0]);
-}
-
-function getResult(op1, op2, operator) {
-    let result = null;
-
-    switch (operator) {
-        case "^":
-            result = op1 ** op2;
-            break;
-        case "*":
-            result = op1 * op2;
-            break;
-        case "/":
-            result = op1 / op2;
-            break;
-        case "+":
-            result = op1 + op2;
-            break;
-        case "-":
-            result = op1 - op2;
-            break;
-        default:
-            console.log(op1 + " " + op2); //test
-            throw errorMessage;
-    }
-
-    return result;
 }
 
 function clear() {
