@@ -90,7 +90,7 @@ function changeToPostfix(expression) {
         }
 
         console.log(stack); //test
-        console.log(postFix);
+        console.log(postFix); //test
     }
 
     while (stack.length > 0) {
@@ -98,6 +98,13 @@ function changeToPostfix(expression) {
     }
 
     console.log(`${postFix} is postFix`); //test
+
+    // Error handling
+    if (postFix.includes("(") || postFix.includes(")")) {
+        throw errorMessage; //Add print to screen eventually
+    }
+
+    // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
 
     evaluateExp(expression);
 }
@@ -126,3 +133,26 @@ operator index -1 and operator index + 1 and put them together.
 */
 
 //console.log(checkPrecedence("*"));
+
+/* Test values: 
+Infix: 2+3*4 Postfix: 2 3 4 * +
+
+Infix: (2+3)*4 Postfix: 2 3 + 4 *
+
+Infix: 2^3^4 Postfix: 2 3 4 ^ ^
+
+Infix: (2+3)*(4+5) Postfix: 2 3 + 4 5 + *
+
+Infix: 2+3*4^5 Postfix: 2 3 4 5 ^ * +
+
+Infix: (2+3)*(4^5+6) Postfix: 2 3 + 4 5 ^ 6 + *
+
+Infix: (1+2)*(3/4)^(5+6) Postfix: 1 2 + 3 4 / 5 6 + ^ *
+
+Infix: (1*(2+3)*4) Postfix: 1 2 3 + * 4 *
+
+Infix: (1^(2+3)*4) Postfix: 1 2 3 + ^ 4 *
+
+Infix: (1*(2+3)^4) Postfix: 1 2 3 + 4 ^ *
+
+*/
