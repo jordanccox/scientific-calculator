@@ -70,10 +70,10 @@ function changeToPostfix(expression) {
         }
 
         else if (character === ")" && stack.includes("(")) {
-                while (stack[stack.length - 1] != "(") {
-                    postFix.push(stack.pop());
-                }
-                stack.pop(); // removes "("
+            while (stack[stack.length - 1] != "(") {
+                postFix.push(stack.pop());
+            }
+            stack.pop(); // removes "("
         }
 
         else { // operator
@@ -109,16 +109,91 @@ function changeToPostfix(expression) {
 
     // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
 
-    evaluateExp(expression);
+    evaluateExp(postFix);
 }
 
-function evaluateExp(expression) {
+function evaluateExp(expression) { //test value: 1 + 2 * 3
+    const stack = [];
+    let op1 = null;
+    let op2 = null;
+    let operator = null;
+    let result = null;
 
+    for (let i = 0; i < expression.length; i++) {
+        if (!isNaN(expression[i])) {
+            stack.push(expression[i]);
+        } else {
+            op2 = stack.pop();
+            op1 = stack.pop();
+            operator = expression[i];
+
+            switch (operator) {
+                case "^":
+                    result = op1 ** op2;
+                    break;
+                case "*":
+                    result = op1 * op2;
+                    break;
+                case "/":
+                    result = op1 / op2;
+                    break;
+                case "+":
+                    result = op1 + op2;
+                    break;
+                case "-":
+                    result = op1 - op2;
+                    break;
+                default:
+                    console.log(operator + " " + op1 + " " + op2)
+                    throw errorMessage;
+            }
+
+            stack.push(result);
+
+        }
+
+        //stack.push(getResult(op1, op2, operator));
+        console.log(stack); //testing
+    }
+
+    if (isNaN(stack[0])) { //Doesn't handle operations on negatives...
+        throw errorMessage;
+    }
+
+    console.log(stack[0]);
+}
+
+function getResult(op1, op2, operator) {
+    let result = null;
+
+    switch (operator) {
+        case "^":
+            result = op1 ** op2;
+            break;
+        case "*":
+            result = op1 * op2;
+            break;
+        case "/":
+            result = op1 / op2;
+            break;
+        case "+":
+            result = op1 + op2;
+            break;
+        case "-":
+            result = op1 - op2;
+            break;
+        default:
+            console.log(op1 + " " + op2); //test
+            throw errorMessage;
+    }
+
+    return result;
 }
 
 function clear() {
 
 }
+//Add modulo function
 
 // At input ()
 
@@ -157,5 +232,18 @@ Infix: (1*(2+3)*4) Postfix: 1 2 3 + * 4 *
 Infix: (1^(2+3)*4) Postfix: 1 2 3 + ^ 4 *
 
 Infix: (1*(2+3)^4) Postfix: 1 2 3 + 4 ^ *
+
+for evaluating:
+
+2 + 3 = 5
+4 - 2 = 2
+6 * 3 = 18
+8 / 4 = 2
+10 % 3 = 1
+2 + (3 * 4) = 14
+(5 + 3) * 2 = 16
+9 - (4 / 2) = 7
+(6 + 2) / 4 = 2
+7 * (8 - 3) = 35
 
 */
