@@ -1,10 +1,10 @@
-//Global constants
+//Universal error
 const errorMessage = "Syntax error!";
 
 // On input
 document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
 
-//Event listener for submit click
+//ADD** Event listener for submit click
 
 function requirePattern(input) {
     const pattern = /^[0-9+\-*/^().]+$/g;
@@ -125,8 +125,6 @@ function changeToPostfix(expression) {
         throw errorMessage; //Add print to screen eventually
     }
 
-    // Add error handling for placing operators next to each other (*/ for example)
-
     // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
     console.log(postFix); //There is a problem with converting infix to postfix when it involves an operator and a negative number such as 3+-4
     evaluateExp(postFix);
@@ -176,7 +174,7 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
         console.log(stack); //testing
     }
 
-    if (isNaN(stack[0])) { //Doesn't handle operations on negatives...
+    if (isNaN(stack[0])) {
         throw errorMessage;
     }
 
@@ -186,7 +184,9 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
 function clear() {
 
 }
-//Add modulo function
+//functions to add:
+
+// percent = multiplies input before by 0.01
 
 // At input ()
 
