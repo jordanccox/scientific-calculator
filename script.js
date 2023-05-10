@@ -38,7 +38,7 @@ function enterInput(input) {
     }
     //console.log(output + "test"); //Testing purposes
     infixExp = changeSign(infixExp);
-    console.log(infixExp); //test
+    //console.log(infixExp); //test
     changeToPostfix(infixExp);
 }
 
@@ -74,7 +74,7 @@ function checkPrecedence(operator) {
 }
 
 function changeToPostfix(expression) {
-    console.log(expression); //Testing
+    //console.log(expression); //Testing
     const stack = [];
     const postFix = [];
 
@@ -110,15 +110,15 @@ function changeToPostfix(expression) {
             stack.push(character);
         }
 
-        console.log(stack); //test
-        console.log(postFix); //test
+       // console.log(stack); //test
+        //console.log(postFix); //test
     }
 
     while (stack.length > 0) {
         postFix.push(stack.pop());
     }
 
-    console.log(`${postFix} is postFix`); //test
+    //console.log(`${postFix} is postFix`); //test
 
     // Error handling
     if (postFix.includes("(") || postFix.includes(")")) {
@@ -126,7 +126,7 @@ function changeToPostfix(expression) {
     }
 
     // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
-    console.log(postFix); //There is a problem with converting infix to postfix when it involves an operator and a negative number such as 3+-4
+   // console.log(postFix); 
     evaluateExp(postFix);
 }
 
@@ -171,14 +171,14 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
         }
 
         //stack.push(getResult(op1, op2, operator));
-        console.log(stack); //testing
+        //console.log(stack); //testing
     }
 
     if (isNaN(stack[0])) {
         throw errorMessage;
     }
 
-    console.log(stack[0]);
+    console.log(stack[0]); // display result for now
 }
 
 function clear() {
