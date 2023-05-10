@@ -1,6 +1,16 @@
 //Universal error
 const errorMessage = "Syntax error!";
 
+// Calculator keys
+const clearBtn = document.querySelector("#clearBtn");
+const openParenth = document.querySelector("#openParenth").innerHTML;
+
+// Event listeners for clicks and keydowns
+clearBtn.onclick = clear;
+openParenth.onclick = addInput();
+
+
+
 // On input
 document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
 
@@ -182,7 +192,7 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
 }
 
 function clear() {
-
+    document.querySelector("#input").value = "";
 }
 //functions to add:
 
