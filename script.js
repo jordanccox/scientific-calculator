@@ -3,20 +3,38 @@ const errorMessage = "Syntax error!";
 
 // Calculator keys
 const clearBtn = document.querySelector("#clearBtn");
-const openParenth = document.querySelector("#openParenth").innerHTML;
+const openParenth = document.querySelector("#openParenth");
+const closeParenth = document.querySelector("#closeParenth");
+const del = document.querySelector("#del");
+const one = document.querySelector("#one");
 
 // Event listeners for clicks and keydowns
 clearBtn.onclick = clear;
-openParenth.onclick = addInput();
+openParenth.onclick = addInput;
+closeParenth.onclick = addInput;
+del.onclick = backspace;
+one.onclick = addInput;
+
+//Add input (NEW FUNCTION)
+function addInput(event) {
+    document.querySelector("#input").value += event.target.innerHTML;
+}
+
+//Backspace
+function backspace() {
+    let inputStr = document.querySelector("#input").value;
+    let inputLength = inputStr.length;
+
+    document.querySelector("#input").value = inputStr.substring(0, inputLength - 1);
+}
 
 
-
-// On input
+// On input //remove
 document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
 
 //ADD** Event listener for submit click
 
-function requirePattern(input) {
+function requirePattern(input) { //remove when button functionality with keyboard is working
     const pattern = /^[0-9+\-*/^().]+$/g;
 
     if (pattern.test(input)) {
@@ -37,7 +55,6 @@ function enterInput(input) {
     let inputArray = input.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let infixExp = [];
 
-    //console.log(inputArray);
     for (let i = 0; i < inputArray.length; i++) {
 
         if (!isNaN(Number(inputArray[i]))) {
@@ -46,9 +63,8 @@ function enterInput(input) {
             infixExp.push(inputArray[i]);
         }
     }
-    //console.log(output + "test"); //Testing purposes
+
     infixExp = changeSign(infixExp);
-    //console.log(infixExp); //test
     changeToPostfix(infixExp);
 }
 
@@ -194,59 +210,10 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
 function clear() {
     document.querySelector("#input").value = "";
 }
-//functions to add:
-
-// percent = multiplies input before by 0.01
-
-// At input ()
 
 /*
 
-Steps:
-
-1. Break string into array
-2. Turn even array elements (0, 2, 4, etc.) into Number
-3. Search array according to PEMDAS
-4. When desired operator is found (except parentheses, which will be a different rule), take
-operator index -1 and operator index + 1 and put them together.
-5. For parentheses, separate numbers and operators within parentheses and then apply steps 3 and 4.
-
-*/
-
-//console.log(checkPrecedence("*"));
-
-/* Test values: 
-Infix: 2+3*4 Postfix: 2 3 4 * +
-
-Infix: (2+3)*4 Postfix: 2 3 + 4 *
-
-Infix: 2^3^4 Postfix: 2 3 4 ^ ^
-
-Infix: (2+3)*(4+5) Postfix: 2 3 + 4 5 + *
-
-Infix: 2+3*4^5 Postfix: 2 3 4 5 ^ * +
-
-Infix: (2+3)*(4^5+6) Postfix: 2 3 + 4 5 ^ 6 + *
-
-Infix: (1+2)*(3/4)^(5+6) Postfix: 1 2 + 3 4 / 5 6 + ^ *
-
-Infix: (1*(2+3)*4) Postfix: 1 2 3 + * 4 *
-
-Infix: (1^(2+3)*4) Postfix: 1 2 3 + ^ 4 *
-
-Infix: (1*(2+3)^4) Postfix: 1 2 3 + 4 ^ *
-
-for evaluating:
-
-2 + 3 = 5
-4 - 2 = 2
-6 * 3 = 18
-8 / 4 = 2
-10 % 3 = 1
-2 + (3 * 4) = 14
-(5 + 3) * 2 = 16
-9 - (4 / 2) = 7
-(6 + 2) / 4 = 2
-7 * (8 - 3) = 35
+Button functionality:
+- 
 
 */
