@@ -1,13 +1,19 @@
 //Universal error
 const errorMessage = "Syntax error!";
 
+// ISSUE: Need to separate input numbers with operators
+
 // Calculator keys
 const clearBtn = document.querySelector("#clearBtn");
 const openParenth = document.querySelector("#openParenth");
 const closeParenth = document.querySelector("#closeParenth");
 const del = document.querySelector("#del");
 const oneOverX = document.querySelector("#one-over-x");
+const sqrt = document.querySelector("#sqrt");
+const cbrt = document.querySelector("#cbrt");
+const percent = document.querySelector("#percent");
 const one = document.querySelector("#one");
+const two = document.querySelector("#two");
 
 // Event listeners for clicks and keydowns
 clearBtn.onclick = clear;
@@ -15,9 +21,13 @@ openParenth.onclick = addInput;
 closeParenth.onclick = addInput;
 del.onclick = backspace;
 oneOverX.onclick = oneDividedBy;
+sqrt.onclick = getSqrt;
+cbrt.onclick = getCbrt;
+percent.onclick = changeToPercent;
 one.onclick = addInput;
+two.onclick = addInput;
 
-//Add input (NEW FUNCTION)
+//Add input
 function addInput(event) {
     document.querySelector("#input").value += event.target.innerHTML;
 }
@@ -31,27 +41,53 @@ function backspace() {
 }
 
 //One over x
+function oneDividedBy () { // Work on this
+    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    let inputLength = inputStr.length;
+    let lastNumber = inputStr[inputStr.length - 1];
+    console.log(lastNumber);
 
-function oneDividedBy () { // prompt to enter value for x
-    document.querySelector("#input").value += "1/(x)";
+    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
+    document.querySelector("#input").value += `1/\(${lastNumber}`;
+
 }
 
-// On input //remove
-document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
-
-//ADD** Event listener for submit click
-
-function requirePattern(input) { //remove when button functionality with keyboard is working
-    const pattern = /^[0-9+\-*/^().]+$/g;
-
-    if (pattern.test(input)) {
-        document.querySelector("#input").value = input;
-    } else {
-        let text = input.slice(0, -1);
-
-        document.querySelector("#input").value = text;
-    }
+//Get square root
+function getSqrt() {
+    document.querySelector("#input").value += "^(1/2)";
 }
+
+//Get cube root
+function getCbrt() {
+    document.querySelector("#input").value += "^(1/3)";
+}
+
+//Change to percent
+function changeToPercent() { //Work on this
+    let inputStr = document.querySelector("#input").value;
+    let inputLength = inputStr.length;
+    let x = Number(inputStr[inputLength - 1]);
+
+    document.querySelector("#input").value = inputStr.substring(0, inputLength - 1);
+    document.querySelector("#input").value += x * 0.01;
+}
+
+// // On input //remove
+// document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
+
+// //ADD** Event listener for submit click
+
+// function requirePattern(input) { //remove when button functionality with keyboard is working
+//     const pattern = /^[0-9+\-*/^().]+$/g;
+
+//     if (pattern.test(input)) {
+//         document.querySelector("#input").value = input;
+//     } else {
+//         let text = input.slice(0, -1);
+
+//         document.querySelector("#input").value = text;
+//     }
+// }
 
 // event listener for equals button
 let equals = document.querySelector("#equals");
@@ -144,7 +180,7 @@ function changeToPostfix(expression) {
         }
 
        // console.log(stack); //test
-        //console.log(postFix); //test
+       // console.log(postFix); //test
     }
 
     while (stack.length > 0) {
@@ -204,10 +240,14 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
         }
 
         //stack.push(getResult(op1, op2, operator));
-        //console.log(stack); //testing
+       // console.log(stack); //testing
     }
 
     if (isNaN(stack[0])) {
+        throw errorMessage;
+    }
+
+    if (stack.length > 1) {
         throw errorMessage;
     }
 
