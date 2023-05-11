@@ -6,6 +6,7 @@ const clearBtn = document.querySelector("#clearBtn");
 const openParenth = document.querySelector("#openParenth");
 const closeParenth = document.querySelector("#closeParenth");
 const del = document.querySelector("#del");
+const oneOverX = document.querySelector("#one-over-x");
 const one = document.querySelector("#one");
 
 // Event listeners for clicks and keydowns
@@ -13,6 +14,7 @@ clearBtn.onclick = clear;
 openParenth.onclick = addInput;
 closeParenth.onclick = addInput;
 del.onclick = backspace;
+oneOverX.onclick = oneDividedBy;
 one.onclick = addInput;
 
 //Add input (NEW FUNCTION)
@@ -28,6 +30,11 @@ function backspace() {
     document.querySelector("#input").value = inputStr.substring(0, inputLength - 1);
 }
 
+//One over x
+
+function oneDividedBy () { // prompt to enter value for x
+    document.querySelector("#input").value += "1/(x)";
+}
 
 // On input //remove
 document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
