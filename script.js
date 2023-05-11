@@ -14,6 +14,8 @@ const cbrt = document.querySelector("#cbrt");
 const percent = document.querySelector("#percent");
 const squared = document.querySelector("#x-squared");
 const cubed = document.querySelector("#x-cubed");
+const xToY = document.querySelector("#x-raised-to-y");
+const divide = document.querySelector("#divide");
 const one = document.querySelector("#one");
 const two = document.querySelector("#two");
 
@@ -28,6 +30,8 @@ cbrt.onclick = getCbrt;
 percent.onclick = changeToPercent;
 squared.onclick = xSquared;
 cubed.onclick = xCubed;
+xToY.onclick = xRaisedToY;
+divide.onclick = division;
 one.onclick = addInput;
 two.onclick = addInput;
 
@@ -98,6 +102,16 @@ function xCubed () {
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += lastNumber * lastNumber * lastNumber;
 
+}
+
+//Raise x to y
+function xRaisedToY() {
+    document.querySelector("#input").value += "^";
+}
+
+//Division
+function division() {
+    document.querySelector("#input").value += "/";
 }
 
 
