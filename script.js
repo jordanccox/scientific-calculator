@@ -44,8 +44,8 @@ function backspace() {
 function oneDividedBy () { // Work on this
     let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
-    let lastNumber = inputStr[inputStr.length - 1];
-    console.log(lastNumber);
+    let lastNumber = inputStr[inputLength - 1];
+   // console.log(lastNumber); //testing
 
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += `1/\(${lastNumber}`;
@@ -64,12 +64,12 @@ function getCbrt() {
 
 //Change to percent
 function changeToPercent() { //Work on this
-    let inputStr = document.querySelector("#input").value;
+    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
-    let x = Number(inputStr[inputLength - 1]);
+    let lastNumber = Number(inputStr[inputLength - 1]);
 
-    document.querySelector("#input").value = inputStr.substring(0, inputLength - 1);
-    document.querySelector("#input").value += x * 0.01;
+    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
+    document.querySelector("#input").value += lastNumber * 0.01;
 }
 
 // // On input //remove
