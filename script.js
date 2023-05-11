@@ -12,6 +12,8 @@ const oneOverX = document.querySelector("#one-over-x");
 const sqrt = document.querySelector("#sqrt");
 const cbrt = document.querySelector("#cbrt");
 const percent = document.querySelector("#percent");
+const squared = document.querySelector("#x-squared");
+const cubed = document.querySelector("#x-cubed");
 const one = document.querySelector("#one");
 const two = document.querySelector("#two");
 
@@ -24,6 +26,8 @@ oneOverX.onclick = oneDividedBy;
 sqrt.onclick = getSqrt;
 cbrt.onclick = getCbrt;
 percent.onclick = changeToPercent;
+squared.onclick = xSquared;
+cubed.onclick = xCubed;
 one.onclick = addInput;
 two.onclick = addInput;
 
@@ -71,6 +75,31 @@ function changeToPercent() { //Work on this
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += lastNumber * 0.01;
 }
+
+// X squared
+function xSquared () {
+    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    let inputLength = inputStr.length;
+    let lastNumber = inputStr[inputLength - 1];
+   // console.log(lastNumber); //testing
+
+    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
+    document.querySelector("#input").value += lastNumber * lastNumber;
+
+}
+
+//X cubed
+function xCubed () {
+    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    let inputLength = inputStr.length;
+    let lastNumber = inputStr[inputLength - 1];
+   // console.log(lastNumber); //testing
+
+    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
+    document.querySelector("#input").value += lastNumber * lastNumber * lastNumber;
+
+}
+
 
 // // On input //remove
 // document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
