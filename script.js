@@ -3,7 +3,7 @@ const errorMessage = "Syntax error!";
 
 // ISSUE: Need to separate input numbers with operators
 
-// Calculator keys
+// Calculator buttons
 const clearBtn = document.querySelector("#clearBtn");
 const openParenth = document.querySelector("#openParenth");
 const closeParenth = document.querySelector("#closeParenth");
@@ -16,8 +16,22 @@ const squared = document.querySelector("#x-squared");
 const cubed = document.querySelector("#x-cubed");
 const xToY = document.querySelector("#x-raised-to-y");
 const divide = document.querySelector("#divide");
+const seven = document.querySelector("#seven");
+const eight = document.querySelector("#eight");
+const nine = document.querySelector("#nine");
+const multiply = document.querySelector("#multiply");
+const four = document.querySelector("#four");
+const five = document.querySelector("#five");
+const six = document.querySelector("#six");
+const minus = document.querySelector("#minus");
 const one = document.querySelector("#one");
 const two = document.querySelector("#two");
+const three = document.querySelector("#three");
+const plus = document.querySelector("#plus");
+const changeSignOfLast = document.querySelector("#change-sign");
+const zero = document.querySelector("#zero");
+const decimalPoint = document.querySelector("#decimal");
+const equals = document.querySelector("#equals");
 
 // Event listeners for clicks and keydowns
 clearBtn.onclick = clear;
@@ -32,8 +46,24 @@ squared.onclick = xSquared;
 cubed.onclick = xCubed;
 xToY.onclick = xRaisedToY;
 divide.onclick = division;
+seven.onclick = addInput;
+eight.onclick = addInput;
+nine.onclick = addInput;
+multiply.onclick = multiplication;
+four.onclick = addInput;
+five.onclick = addInput;
+six.onclick = addInput;
+minus.onclick = addInput;
 one.onclick = addInput;
 two.onclick = addInput;
+three.onclick = addInput;
+plus.onclick = addInput;
+changeSignOfLast.onclick = flipSign;
+zero.onclick = addInput;
+decimalPoint.onclick = addInput;
+
+// event listener for equals button
+equals.addEventListener("click", () => enterInput(document.querySelector("#input").value));
 
 //Add input
 function addInput(event) {
@@ -114,6 +144,23 @@ function division() {
     document.querySelector("#input").value += "/";
 }
 
+//Multiplication
+function multiplication() {
+    document.querySelector("#input").value += "*";
+}
+
+//flip sign
+function flipSign () {
+    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    let inputLength = inputStr.length;
+    let lastNumber = inputStr[inputLength - 1];
+   // console.log(lastNumber); //testing
+
+    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
+    document.querySelector("#input").value += lastNumber * -1;
+
+}
+
 
 // // On input //remove
 // document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
@@ -131,10 +178,6 @@ function division() {
 //         document.querySelector("#input").value = text;
 //     }
 // }
-
-// event listener for equals button
-let equals = document.querySelector("#equals");
-equals.addEventListener("click", () => enterInput(document.querySelector("#input").value));
 
 function enterInput(input) {
     //console.log(input + "enterInput");
