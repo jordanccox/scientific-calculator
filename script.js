@@ -33,37 +33,57 @@ const zero = document.querySelector("#zero");
 const decimalPoint = document.querySelector("#decimal");
 const equals = document.querySelector("#equals");
 
-// Event listeners for clicks and keydowns
-clearBtn.onclick = clear;
-openParenth.onclick = addInput;
-closeParenth.onclick = addInput;
-del.onclick = backspace;
-oneOverX.onclick = oneDividedBy;
-sqrt.onclick = getSqrt;
-cbrt.onclick = getCbrt;
-percent.onclick = changeToPercent;
-squared.onclick = xSquared;
-cubed.onclick = xCubed;
-xToY.onclick = xRaisedToY;
-divide.onclick = division;
-seven.onclick = addInput;
-eight.onclick = addInput;
-nine.onclick = addInput;
-multiply.onclick = multiplication;
-four.onclick = addInput;
-five.onclick = addInput;
-six.onclick = addInput;
-minus.onclick = addInput;
-one.onclick = addInput;
-two.onclick = addInput;
-three.onclick = addInput;
-plus.onclick = addInput;
-changeSignOfLast.onclick = flipSign;
-zero.onclick = addInput;
-decimalPoint.onclick = addInput;
-
-// event handler for equals button
-equals.addEventListener("click", () => enterInput(document.querySelector("#input").value));
+//Universal event handler
+window.addEventListener(
+    "click", 
+    (event) => {
+        switch (event.target) {
+            case clearBtn:
+                return clear();
+            case openParenth:
+            case closeParenth:
+            case decimalPoint:
+            case plus:
+            case minus:
+            case zero:
+            case one:
+            case two:
+            case three:
+            case four:
+            case five:
+            case six:
+            case seven:
+            case eight:
+            case nine:
+                return addInput(event);
+            case del:
+                return backspace();
+            case oneOverX:
+                return oneDividedBy();
+            case sqrt:
+                return getSqrt();
+            case cbrt:
+                return getCbrt();
+            case percent:
+                return changeToPercent();
+            case squared:
+                return xSquared();
+            case cubed:
+                return xCubed();
+            case xToY:
+                return xRaisedToY();
+            case divide:
+                return division();
+            case multiply:
+                return multiplication();
+            case changeSignOfLast:
+                return flipSign();
+            case equals:
+                return enterInput(document.querySelector("#input").value);
+            
+        }
+    }
+);
 
 //Add input
 function addInput(event) {
@@ -341,7 +361,8 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
         throw errorMessage;
     }
 
-    console.log(stack[0]); // display result for now
+    document.querySelector("#input").value = stack[0];
+    //console.log(stack[0]); // display result for now
 }
 
 function clear() {
