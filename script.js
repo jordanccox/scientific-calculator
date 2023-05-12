@@ -182,12 +182,12 @@ function enterInput(input) {
     }
 
     infixExp = changeSign(infixExp);
-    console.log(infixExp);
+    //console.log(infixExp); //testing purposes
     changeToPostfix(infixExp);
 }
 
-function changeSign(expression) { //broken
-    let newArray = expression;
+function changeSign(input) {
+    let newArray = input;
 
     for (let i = 0; i < newArray.length; i++) { // test value: 1-3*-4-(8*9-4*-(4*6))
         let value = newArray[i]; // minus sign
@@ -196,8 +196,22 @@ function changeSign(expression) { //broken
         let start = newArray.slice(0, i);
         let end = newArray.slice(i + 2, newArray.length);
 
-        if (value == "-" && isNaN(valueBefore) && !isNaN(numToChange)) {
-            newArray = start.concat(numToChange * -1).concat(end);
+        if (value === "-" && Number(valueBefore) && numToChange !== "(") { //case num - num
+            if (isNaN(numToChange * - 1)) {
+                throw errorMessage;
+            }
+            newArray = start.concat("+").concat(numToChange * - 1).concat(end);
+        } else if (value === "-" && isNaN(valueBefore) && numToChange !== "(") { // case num operator - num and starts with -num
+            if (isNaN(numToChange * - 1)) {
+                throw errorMessage;
+            }
+            newArray = start.concat(numToChange * - 1).concat(end);
+        } else if (value === "-" && Number(valueBefore) && numToChange === "(") { // case num - ()
+            end = newArray.slice(i + 1, newArray.length);
+            newArray = start.concat("+").concat(-1).concat("*").concat(end);
+        } else if (value === "-" && isNaN(valueBefore) && numToChange === "(") { // case num operator - ()
+            end = newArray.slice(i + 1, newArray.length);
+            newArray = start.concat(-1).concat("*").concat(end);
         }
     }
 
