@@ -1,7 +1,7 @@
 //Universal error
 const errorMessage = "Syntax error!";
 
-// ISSUE: Need to separate input numbers with operators
+// ISSUE: handle cases such as -(8)... right now this results in a syntax error, (-8) squared results in NaN
 
 // Calculator buttons
 const clearBtn = document.querySelector("#clearBtn");
@@ -62,7 +62,7 @@ changeSignOfLast.onclick = flipSign;
 zero.onclick = addInput;
 decimalPoint.onclick = addInput;
 
-// event listener for equals button
+// event handler for equals button
 equals.addEventListener("click", () => enterInput(document.querySelector("#input").value));
 
 //Add input
@@ -79,11 +79,11 @@ function backspace() {
 }
 
 //One over x
-function oneDividedBy () { // Work on this
+function oneDividedBy() {
     let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
     let lastNumber = inputStr[inputLength - 1];
-   // console.log(lastNumber); //testing
+    // console.log(lastNumber); //testing
 
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += `1/\(${lastNumber}`;
@@ -111,26 +111,14 @@ function changeToPercent() { //Work on this
 }
 
 // X squared
-function xSquared () {
-    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
-    let inputLength = inputStr.length;
-    let lastNumber = inputStr[inputLength - 1];
-   // console.log(lastNumber); //testing
-
-    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
-    document.querySelector("#input").value += lastNumber * lastNumber;
+function xSquared() {
+    document.querySelector("#input").value += "^2";
 
 }
 
 //X cubed
-function xCubed () {
-    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
-    let inputLength = inputStr.length;
-    let lastNumber = inputStr[inputLength - 1];
-   // console.log(lastNumber); //testing
-
-    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
-    document.querySelector("#input").value += lastNumber * lastNumber * lastNumber;
+function xCubed() {
+    document.querySelector("#input").value += "^3";
 
 }
 
@@ -150,11 +138,11 @@ function multiplication() {
 }
 
 //flip sign
-function flipSign () {
+function flipSign() {
     let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
     let lastNumber = inputStr[inputLength - 1];
-   // console.log(lastNumber); //testing
+    // console.log(lastNumber); //testing
 
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += lastNumber * -1;
@@ -194,10 +182,11 @@ function enterInput(input) {
     }
 
     infixExp = changeSign(infixExp);
+    console.log(infixExp);
     changeToPostfix(infixExp);
 }
 
-function changeSign(expression) {
+function changeSign(expression) { //broken
     let newArray = expression;
 
     for (let i = 0; i < newArray.length; i++) { // test value: 1-3*-4-(8*9-4*-(4*6))
@@ -214,6 +203,7 @@ function changeSign(expression) {
 
     return newArray;
 }
+
 
 function checkPrecedence(operator) {
     switch (operator) {
@@ -265,8 +255,8 @@ function changeToPostfix(expression) {
             stack.push(character);
         }
 
-       // console.log(stack); //test
-       // console.log(postFix); //test
+        // console.log(stack); //test
+        // console.log(postFix); //test
     }
 
     while (stack.length > 0) {
@@ -281,7 +271,7 @@ function changeToPostfix(expression) {
     }
 
     // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
-   // console.log(postFix); 
+    // console.log(postFix); 
     evaluateExp(postFix);
 }
 
@@ -326,7 +316,7 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
         }
 
         //stack.push(getResult(op1, op2, operator));
-       // console.log(stack); //testing
+        // console.log(stack); //testing
     }
 
     if (isNaN(stack[0])) {
