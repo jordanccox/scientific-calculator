@@ -218,11 +218,13 @@ function changeSign(input) {
 
         if (value === "-" && Number(valueBefore) && numToChange !== "(") { //case num - num
             if (isNaN(numToChange * - 1)) {
+                document.querySelector("#input").value = errorMessage;
                 throw errorMessage;
             }
             newArray = start.concat("+").concat(numToChange * - 1).concat(end);
         } else if (value === "-" && isNaN(valueBefore) && numToChange !== "(") { // case num operator - num and starts with -num
             if (isNaN(numToChange * - 1)) {
+                document.querySelector("#input").value = errorMessage;
                 throw errorMessage;
             }
             newArray = start.concat(numToChange * - 1).concat(end);
@@ -301,6 +303,7 @@ function changeToPostfix(expression) {
 
     // Error handling
     if (postFix.includes("(") || postFix.includes(")")) {
+        document.querySelector("#input").value = errorMessage;
         throw errorMessage; //Add print to screen eventually
     }
 
@@ -341,7 +344,8 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
                     result = op1 - op2;
                     break;
                 default:
-                    console.log(operator + " " + op1 + " " + op2)
+                    //console.log(operator + " " + op1 + " " + op2)
+                    document.querySelector("#input").value = errorMessage;
                     throw errorMessage;
             }
 
@@ -354,10 +358,12 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
     }
 
     if (isNaN(stack[0])) {
+        document.querySelector("#input").value = errorMessage;
         throw errorMessage;
     }
 
     if (stack.length > 1) {
+        document.querySelector("#input").value = errorMessage;
         throw errorMessage;
     }
 
