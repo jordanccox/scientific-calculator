@@ -160,12 +160,21 @@ function flipSign() {
     let inputLength = inputStr.length;
     let lastNumber = inputStr[inputLength - 1];
 
-    if (inputStr[inputLength - 2] == "-") {
+    if (inputStr[inputLength - 2] == "+") {
+        document.querySelector("#input").value = inputStr.slice(0, inputLength - 2).join("");
+        document.querySelector("#input").value += lastNumber * -1;
+    } else if (inputStr[inputLength - 2] == "-" && !isNaN(inputStr[inputLength - 3])) {
         document.querySelector("#input").value = inputStr.slice(0, inputLength - 2).join("");
         document.querySelector("#input").value += "+" + lastNumber;
-    } else {
+    } else if (isNaN(inputStr[inputLength - 2]) && inputStr[inputLength - 2] != "-") {
         document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
         document.querySelector("#input").value += lastNumber * -1;
+    } else if (isNaN(inputStr[inputLength - 2]) && inputStr[inputLength - 2] == "-") {
+        document.querySelector("#input").value = inputStr.slice(0, inputLength - 2).join("");
+        document.querySelector("#input").value += lastNumber;
+    } else {
+        document.querySelector("#input").value = errorMessage;
+        throw errorMessage;
     }
 
 }
