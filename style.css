@@ -17,6 +17,7 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
+  border: 0;
 }
 
 table {
@@ -39,8 +40,8 @@ th {
   width: 100%;
   height: 100%;
   border-radius: 5px;
-  border: none;
-  background-color:#6d706a;
+  border: 0;
+  background-color:#bcbdbb;
   font-family: Arial, Helvetica, sans-serif;
   color: black;
   font-size: 24px;
