@@ -1,7 +1,5 @@
-//Universal error
+// Syntax error
 const errorMessage = "Syntax error!";
-
-// ISSUE: handle cases such as -(8)... right now this results in a syntax error, (-8) squared results in NaN
 
 // Calculator buttons
 const clearBtn = document.querySelector("#clearBtn");
@@ -33,7 +31,7 @@ const zero = document.querySelector("#zero");
 const decimalPoint = document.querySelector("#decimal");
 const equals = document.querySelector("#equals");
 
-//Universal event handler
+// Handle button clicks
 window.addEventListener(
     "click", 
     (event) => {
@@ -85,12 +83,12 @@ window.addEventListener(
     }
 );
 
-//Add input
+// Add input
 function addInput(event) {
     document.querySelector("#input").value += event.target.innerHTML;
 }
 
-//Backspace
+// Backspace
 function backspace() {
     let inputStr = document.querySelector("#input").value;
     let inputLength = inputStr.length;
@@ -98,30 +96,29 @@ function backspace() {
     document.querySelector("#input").value = inputStr.substring(0, inputLength - 1);
 }
 
-//One over x
+// One divided by last number in input
 function oneDividedBy() {
     let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
     let lastNumber = inputStr[inputLength - 1];
-    // console.log(lastNumber); //testing
 
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += `1/\(${lastNumber}`;
 
 }
 
-//Get square root
+// Get square root
 function getSqrt() {
     document.querySelector("#input").value += "^(1/2)";
 }
 
-//Get cube root
+// Get cube root
 function getCbrt() {
     document.querySelector("#input").value += "^(1/3)";
 }
 
-//Change to percent
-function changeToPercent() { //Work on this
+// Change to percent
+function changeToPercent() {
     let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
     let lastNumber = Number(inputStr[inputLength - 1]);
@@ -130,65 +127,51 @@ function changeToPercent() { //Work on this
     document.querySelector("#input").value += lastNumber * 0.01;
 }
 
-// X squared
+// Number squared
 function xSquared() {
     document.querySelector("#input").value += "^2";
 
 }
 
-//X cubed
+// Number cubed
 function xCubed() {
     document.querySelector("#input").value += "^3";
 
 }
 
-//Raise x to y
+// Raise number x to power y
 function xRaisedToY() {
     document.querySelector("#input").value += "^";
 }
 
-//Division
+// Division
 function division() {
     document.querySelector("#input").value += "/";
 }
 
-//Multiplication
+// Multiplication
 function multiplication() {
     document.querySelector("#input").value += "*";
 }
 
-//flip sign
+// Flip sign of last number input to opposite sign
 function flipSign() {
     let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let inputLength = inputStr.length;
     let lastNumber = inputStr[inputLength - 1];
-    // console.log(lastNumber); //testing
 
-    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
-    document.querySelector("#input").value += lastNumber * -1;
+    if (inputStr[inputLength - 2] == "-") {
+        document.querySelector("#input").value = inputStr.slice(0, inputLength - 2).join("");
+        document.querySelector("#input").value += "+" + lastNumber;
+    } else {
+        document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
+        document.querySelector("#input").value += lastNumber * -1;
+    }
 
 }
 
-
-// // On input //remove
-// document.querySelector("#input").oninput = () => requirePattern(document.querySelector("#input").value);
-
-// //ADD** Event listener for submit click
-
-// function requirePattern(input) { //remove when button functionality with keyboard is working
-//     const pattern = /^[0-9+\-*/^().]+$/g;
-
-//     if (pattern.test(input)) {
-//         document.querySelector("#input").value = input;
-//     } else {
-//         let text = input.slice(0, -1);
-
-//         document.querySelector("#input").value = text;
-//     }
-// }
-
+// Enter input as a string, then separate into an array of numbers, operators, and parentheses
 function enterInput(input) {
-    //console.log(input + "enterInput");
     let inputArray = input.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let infixExp = [];
 
@@ -202,10 +185,11 @@ function enterInput(input) {
     }
 
     infixExp = changeSign(infixExp);
-    //console.log(infixExp); //testing purposes
     changeToPostfix(infixExp);
 }
 
+// Change sign of number following minus to negative number. This allows for much easier handling of cases
+// in which a minus follows an operator or precedes an opening parentheses.
 function changeSign(input) {
     let newArray = input;
 
@@ -240,7 +224,7 @@ function changeSign(input) {
     return newArray;
 }
 
-
+// Check precedence in the order of operations to allow changing infix expressions to postfix expressions
 function checkPrecedence(operator) {
     switch (operator) {
         case "^":
@@ -254,8 +238,8 @@ function checkPrecedence(operator) {
     }
 }
 
+// Stack algorithm to change the calculator input to a postfix expression for more efficient operations.
 function changeToPostfix(expression) {
-    //console.log(expression); //Testing
     const stack = [];
     const postFix = [];
 
@@ -290,28 +274,21 @@ function changeToPostfix(expression) {
             }
             stack.push(character);
         }
-
-        // console.log(stack); //test
-        // console.log(postFix); //test
     }
 
     while (stack.length > 0) {
         postFix.push(stack.pop());
     }
 
-    //console.log(`${postFix} is postFix`); //test
-
     // Error handling
     if (postFix.includes("(") || postFix.includes(")")) {
         document.querySelector("#input").value = errorMessage;
-        throw errorMessage; //Add print to screen eventually
+        throw errorMessage;
     }
-
-    // In evaluate expression, add error handling for expression.length > 1 or expression.length < 1 (throw syntax error)
-    // console.log(postFix); 
     evaluateExp(postFix);
 }
 
+// Now that the expression is in postfix form, we can evaluate it easily using another stack algorithm.
 function evaluateExp(expression) { //test value: 1 + 2 * 3
     const stack = [];
     let op1 = null;
@@ -344,17 +321,11 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
                     result = op1 - op2;
                     break;
                 default:
-                    //console.log(operator + " " + op1 + " " + op2)
                     document.querySelector("#input").value = errorMessage;
                     throw errorMessage;
             }
-
             stack.push(result);
-
         }
-
-        //stack.push(getResult(op1, op2, operator));
-        // console.log(stack); //testing
     }
 
     if (isNaN(stack[0])) {
@@ -368,16 +339,9 @@ function evaluateExp(expression) { //test value: 1 + 2 * 3
     }
 
     document.querySelector("#input").value = stack[0];
-    //console.log(stack[0]); // display result for now
 }
 
+// Clear the calculator
 function clear() {
     document.querySelector("#input").value = "";
 }
-
-/*
-
-Button functionality:
-- 
-
-*/
