@@ -40,7 +40,6 @@ window.addEventListener(
                 return clear();
             case openParenth:
             case closeParenth:
-            case decimalPoint:
             case plus:
             case minus:
             case zero:
@@ -54,6 +53,8 @@ window.addEventListener(
             case eight:
             case nine:
                 return addInput(event);
+            case decimalPoint:
+                return addDecimal();
             case del:
                 return backspace();
             case oneOverX:
@@ -86,6 +87,18 @@ window.addEventListener(
 // Add input
 function addInput(event) {
     document.querySelector("#input").value += event.target.innerHTML;
+}
+
+function addDecimal() {
+    const inputStr = document.querySelector("#input").value;
+    const inputLength = inputStr.length;
+    const previousValue = inputStr[inputLength - 1];
+
+    if (isNaN(previousValue)) {
+        document.querySelector("#input").value += "0.";
+    } else {
+        document.querySelector("#input").value += ".";
+    }
 }
 
 // Backspace
