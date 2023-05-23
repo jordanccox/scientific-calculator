@@ -111,13 +111,18 @@ function backspace() {
 
 // One divided by last number in input
 function oneDividedBy() {
-    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
-    let inputLength = inputStr.length;
-    let lastNumber = inputStr[inputLength - 1];
+    try {
+        const inputElement = document.querySelector("#input");
+        const inputStr = inputElement.value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+        const inputLength = inputStr.length;
+        const lastNumber = inputStr[inputLength - 1];
 
-    document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
-    document.querySelector("#input").value += `1/\(${lastNumber}`;
-
+        inputElement.value = inputStr.slice(0, inputLength - 1).join("");
+        inputElement.value += `1/(${lastNumber})`;
+    } catch (error) {
+        document.querySelector("#input").value = errorMessage;
+        return;
+    }
 }
 
 // Get square root
