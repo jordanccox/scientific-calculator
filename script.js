@@ -60,21 +60,21 @@ window.addEventListener(
             case oneOverX:
                 return oneDividedByX();
             case sqrt:
-                return getSqrt();
+                return addOperator("^(1/2)");
             case cbrt:
-                return getCbrt();
+                return addOperator("^(1/3)");
             case percent:
                 return changeToPercent();
             case squared:
-                return xSquared();
+                return addOperator("^2");
             case cubed:
-                return xCubed();
+                return addOperator("^3");
             case xToY:
-                return xRaisedToY();
+                return addOperator("^");
             case divide:
-                return division();
+                return addOperator("/");
             case multiply:
-                return multiplication();
+                return addOperator("*");
             case changeSignOfLast:
                 return flipSign();
             case equals:
@@ -83,9 +83,12 @@ window.addEventListener(
     }
 );
 
-// Add input
 function addInput(event) {
     document.querySelector("#input").value += event.target.innerHTML;
+}
+
+function addOperator(operator) {
+    document.querySelector("#input").value += `${operator}`;
 }
 
 function addDecimal() {
@@ -102,8 +105,8 @@ function addDecimal() {
 
 // Backspace
 function backspace() {
-    let inputStr = document.querySelector("#input").value;
-    let inputLength = inputStr.length;
+    const inputStr = document.querySelector("#input").value;
+    const inputLength = inputStr.length;
 
     document.querySelector("#input").value = inputStr.substring(0, inputLength - 1);
 }
@@ -124,58 +127,21 @@ function oneDividedByX() {
     }
 }
 
-// Get square root
-function getSqrt() {
-    document.querySelector("#input").value += "^(1/2)";
-}
-
-// Get cube root
-function getCbrt() {
-    document.querySelector("#input").value += "^(1/3)";
-}
-
 // Change to percent
 function changeToPercent() {
-    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
-    let inputLength = inputStr.length;
-    let lastNumber = Number(inputStr[inputLength - 1]);
+    const inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    const inputLength = inputStr.length;
+    const lastNumber = Number(inputStr[inputLength - 1]);
 
     document.querySelector("#input").value = inputStr.slice(0, inputLength - 1).join("");
     document.querySelector("#input").value += lastNumber * 0.01;
 }
 
-// Number squared
-function xSquared() {
-    document.querySelector("#input").value += "^2";
-
-}
-
-// Number cubed
-function xCubed() {
-    document.querySelector("#input").value += "^3";
-
-}
-
-// Raise number x to power y
-function xRaisedToY() {
-    document.querySelector("#input").value += "^";
-}
-
-// Division
-function division() {
-    document.querySelector("#input").value += "/";
-}
-
-// Multiplication
-function multiplication() {
-    document.querySelector("#input").value += "*";
-}
-
 // Flip sign of last number input to opposite sign
 function flipSign() {
-    let inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
-    let inputLength = inputStr.length;
-    let lastNumber = inputStr[inputLength - 1];
+    const inputStr = document.querySelector("#input").value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    const inputLength = inputStr.length;
+    const lastNumber = inputStr[inputLength - 1];
 
     if (inputStr[inputLength - 2] == "+") {
         document.querySelector("#input").value = inputStr.slice(0, inputLength - 2).join("");
@@ -198,11 +164,10 @@ function flipSign() {
 
 // Enter input as a string, then separate into an array of numbers, operators, and parentheses
 function enterInput(input) {
-    let inputArray = input.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
+    const inputArray = input.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
     let infixExp = [];
 
     for (let i = 0; i < inputArray.length; i++) {
-
         if (!isNaN(Number(inputArray[i]))) {
             infixExp.push(Number(inputArray[i]));
         } else {
