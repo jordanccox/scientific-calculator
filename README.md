@@ -2,7 +2,7 @@
 
 ## Overview:
 
-This is a simple calculator program designed to mimic the functionality of a basic scientific calculator, inspired by the TI-30 calculator. While it doesn't encompass all the features of a TI-30, it aims to replicate the input behavior, where clicking buttons generates a string of inputs on the screen, as opposed to a simpler caluclator that only displays one input on the screen at once.
+This is a simple calculator program designed to mimic the functionality of a basic scientific calculator, inspired by the TI-30 calculator. While it doesn't encompass all the features of a TI-30, it aims to replicate the input behavior, where clicking buttons generates a string of inputs on the screen, as opposed to a simpler calculator that only displays one input on the screen at once.
 
 ## Logic:
 
