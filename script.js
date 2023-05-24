@@ -58,7 +58,7 @@ window.addEventListener(
             case del:
                 return backspace();
             case oneOverX:
-                return oneDividedBy();
+                return oneDividedByX();
             case sqrt:
                 return getSqrt();
             case cbrt:
@@ -79,7 +79,6 @@ window.addEventListener(
                 return flipSign();
             case equals:
                 return enterInput(document.querySelector("#input").value);
-            
         }
     }
 );
@@ -110,7 +109,7 @@ function backspace() {
 }
 
 // One divided by last number in input
-function oneDividedBy() {
+function oneDividedByX() {
     try {
         const inputElement = document.querySelector("#input");
         const inputStr = inputElement.value.match(/\d+\.\d+|\d+|[+\-/*^()]/g);
