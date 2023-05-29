@@ -98,3 +98,22 @@ button:active {
   box-shadow: 2px 2px 5px #ac6700 inset;
 }
 
+.superscript-button {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.superscript-button sup, .superscript-button sub {
+  pointer-events: none;
+}
+
+.superscript-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
